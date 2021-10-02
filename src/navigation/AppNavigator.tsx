@@ -8,6 +8,8 @@ import PaymentScreen from '../screens/PaymentScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import DebitCardScreen from '../screens/DebitCardScreen';
 import SpendingLimitScreen from '../screens/SpendingLimitScreen';
+import colors from '../styles/colors';
+import {Image} from 'react-native';
 
 const Tab = createBottomTabNavigator();
 
@@ -16,7 +18,30 @@ const Stack = createNativeStackNavigator();
 const HomeTabs = () => {
   return (
     <Tab.Navigator
-      screenOptions={{headerShown: false}}
+      screenOptions={({route}) => ({
+        tabBarIcon: () => {
+          let image = require('../assets/images/home-icon.png');
+          switch (route.name) {
+            case 'Debit':
+              image = require('../assets/images/debit-icon.png');
+              break;
+            case 'Payment':
+              image = require('../assets/images/payment-icon.png');
+              break;
+            case 'Credit':
+              image = require('../assets/images/credit-icon.png');
+              break;
+            case 'Profile':
+              image = require('../assets/images/profile-icon.png');
+              break;
+            default:
+              break;
+          }
+          return <Image source={image} />;
+        },
+        tabBarActiveTintColor: colors.secondary,
+        headerShown: false,
+      })}
       initialRouteName="Debit">
       <Tab.Screen name="Home" component={HomeScreen} />
       <Tab.Screen name="Debit" component={DebitCardScreen} />

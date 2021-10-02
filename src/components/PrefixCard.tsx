@@ -5,7 +5,7 @@ import colors from '../styles/colors';
 const PrefixCard = () => {
   return (
     <View style={styles.prefixCard}>
-      <Text style={styles.prefixCardText}>{'$$'}</Text>
+      <Text style={styles.prefixCardText}>{'S$'}</Text>
     </View>
   );
 };

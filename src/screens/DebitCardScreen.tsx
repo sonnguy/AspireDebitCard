@@ -1,25 +1,25 @@
-import React, {useRef} from 'react';
+import React, { useRef } from 'react';
 import {
   View,
   Text,
   Animated,
-  Dimensions,
   StyleSheet,
   Image,
-  StatusBar,
   ScrollView,
   TouchableOpacity,
 } from 'react-native';
 import Card from '../components/Card';
 import colors from '../styles/colors';
 import ToggleSwitch from 'toggle-switch-react-native';
-import PrefixCard from '../components/SmallCard';
+import PrefixCard from '../components/PrefixCard';
+import { IoniconsIcon } from '../components/Icon';
+import commonUtils from '../utils/commonUtils';
 
-const {height} = Dimensions.get('window');
+const { height } = commonUtils.deviceDimension;
 
 const HEADER_HEIGHT = height * 0.4;
 const DebitCardScreen = (props: {
-  navigation: {navigate: (arg0: string) => void};
+  navigation: { navigate: (arg0: string) => void };
 }) => {
   const scrollY = useRef(new Animated.Value(0)).current;
 
@@ -33,7 +33,9 @@ const DebitCardScreen = (props: {
     props.navigation.navigate('SpendingLimit');
   };
 
-  const onHideCardNumberPress = () => {};
+  const onHideCardNumberPress = () => {
+    gotoSpendingLimit();
+  };
 
   return (
     <View style={styles.container}>
@@ -68,7 +70,7 @@ const HeaderContainer = () => {
 };
 
 const BodyContainer = props => {
-  const {onHideCardNumberPress} = props;
+  const { onHideCardNumberPress } = props;
   return (
     <View style={styles.bodyContainer}>
       <View style={styles.cardContainer}>
@@ -76,6 +78,11 @@ const BodyContainer = props => {
           <TouchableOpacity
             style={styles.hideCardNumberContent}
             onPress={onHideCardNumberPress}>
+            <IoniconsIcon
+              name="ios-eye-off"
+              size={16}
+              color={colors.secondary}
+            />
             <Text style={styles.cardHideCardNumbemText}>
               {'Hide card number'}
             </Text>
@@ -127,7 +134,7 @@ const BodyContainer = props => {
 };
 
 const CardConfig = props => {
-  const {image, title, description, isToggle, onToggleSwitch} = props;
+  const { image, title, description, isToggle, onToggleSwitch } = props;
   return (
     <View style={styles.cardConfig}>
       <Image source={image} />
@@ -158,11 +165,12 @@ const styles = StyleSheet.create({
   },
   headerContent: {
     paddingHorizontal: 20,
-    paddingTop: StatusBar.currentHeight + 50,
+    paddingTop: commonUtils.statusBarHeight,
   },
   titleAndLogoBlock: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    paddingVertical: 10,
   },
   headerMainText: {
     fontFamily: 'AvenirNext-Bold',
@@ -171,7 +179,7 @@ const styles = StyleSheet.create({
     marginTop: 5,
   },
   balanceBlock: {
-    marginTop: 20,
+    marginTop: 10,
   },
   balanceLabel: {
     color: colors.textPrimary,
@@ -210,11 +218,14 @@ const styles = StyleSheet.create({
     paddingTop: 8,
     paddingBottom: 20,
     borderRadius: 5,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   cardHideCardNumbemText: {
     color: colors.secondary,
     fontFamily: 'AvenirNext-Bold',
     fontSize: 12,
+    paddingLeft: 5,
   },
   cardConfigContainer: {
     marginTop: 20,
@@ -237,9 +248,8 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
   cardConfigDescription: {
-    color: colors.cardConfigDes,
+    color: colors.textGray,
     fontFamily: 'AvenirNext-Regular',
     fontSize: 13,
-    opacity: 0.4,
   },
 });
