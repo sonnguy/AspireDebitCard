@@ -13,6 +13,7 @@ import {
 import Card from '../components/card';
 import colors from '../styles/colors';
 import ToggleSwitch from 'toggle-switch-react-native';
+import PrefixCard from '../components/smallCard';
 
 const { height } = Dimensions.get('window');
 
@@ -57,9 +58,7 @@ const HeaderContainer = () => {
                 <View style={styles.balanceBlock}>
                     <Text style={styles.balanceLabel}>{'Available balance'}</Text>
                     <View style={styles.balanceInfo}>
-                        <View style={styles.balanceSmallCard}>
-                            <Text style={styles.balanceSmallCardText}>{'$$'}</Text>
-                        </View>
+                        <PrefixCard />
                         <Text style={styles.balanceNumber}>{'3,000'}</Text>
                     </View>
                 </View>
@@ -183,17 +182,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         marginTop: 15,
         alignItems: 'center',
-    },
-    balanceSmallCard: {
-        borderRadius: 4,
-        backgroundColor: colors.secondary,
-    },
-    balanceSmallCardText: {
-        color: colors.textPrimary,
-        paddingVertical: 3,
-        paddingHorizontal: 12,
-        fontWeight: '900',
-        fontSize: 13,
     },
     balanceNumber: {
         color: colors.textPrimary,
