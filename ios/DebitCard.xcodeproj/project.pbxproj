@@ -12,8 +12,11 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		21D0346A4E54C9BDEA222D75 /* libPods-DebitCard.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F4D9B6866E0C2ADB48065FD1 /* libPods-DebitCard.a */; };
+		2DE096918C754113B3E04F0A /* AvenirNext-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 972578FFF3C444A1848664C7 /* AvenirNext-Bold.ttf */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		8B367B27BCE96E0B70B2E0C8 /* libPods-DebitCard-DebitCardTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = DE8202BB014A7A46829BD5C0 /* libPods-DebitCard-DebitCardTests.a */; };
+		B0E3CFAA19C84AA7A1DD04B6 /* AvenirNext-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5A350EF77B86440698DE69A5 /* AvenirNext-Regular.ttf */; };
+		F439B585EC5E4E74B35395B6 /* AvenirNext-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = ADB9D183065F4508B74514ED /* AvenirNext-Medium.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -36,10 +39,16 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = DebitCard/Images.xcassets; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = DebitCard/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = DebitCard/main.m; sourceTree = "<group>"; };
+		1C445BB482D343A58B99D681 /* AvenirNext-SemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "AvenirNext-SemiBold.ttf"; path = "../src/assets/fonts/AvenirNext-SemiBold.ttf"; sourceTree = "<group>"; };
+		246749CFF9DF44F6B23E35F2 /* AvnerNext-DemiBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "AvnerNext-DemiBold.ttf"; path = "../src/assets/fonts/AvnerNext-DemiBold.ttf"; sourceTree = "<group>"; };
 		49BDD455591EEB009624841C /* Pods-DebitCard.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DebitCard.release.xcconfig"; path = "Target Support Files/Pods-DebitCard/Pods-DebitCard.release.xcconfig"; sourceTree = "<group>"; };
+		5A350EF77B86440698DE69A5 /* AvenirNext-Regular.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "AvenirNext-Regular.ttf"; path = "../src/assets/fonts/AvenirNext-Regular.ttf"; sourceTree = "<group>"; };
 		5AA21B33401EB811C6C971B3 /* Pods-DebitCard.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DebitCard.debug.xcconfig"; path = "Target Support Files/Pods-DebitCard/Pods-DebitCard.debug.xcconfig"; sourceTree = "<group>"; };
 		62647FF36B9A2D5ECA1383D4 /* Pods-DebitCard-DebitCardTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DebitCard-DebitCardTests.release.xcconfig"; path = "Target Support Files/Pods-DebitCard-DebitCardTests/Pods-DebitCard-DebitCardTests.release.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = DebitCard/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		972578FFF3C444A1848664C7 /* AvenirNext-Bold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "AvenirNext-Bold.ttf"; path = "../src/assets/fonts/AvenirNext-Bold.ttf"; sourceTree = "<group>"; };
+		ADB9D183065F4508B74514ED /* AvenirNext-Medium.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "AvenirNext-Medium.ttf"; path = "../src/assets/fonts/AvenirNext-Medium.ttf"; sourceTree = "<group>"; };
+		C24BA3E383DA4F5F8ABC1073 /* AvenirNext-SBold.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = "AvenirNext-SBold.ttf"; path = "../src/assets/fonts/AvenirNext-SBold.ttf"; sourceTree = "<group>"; };
 		DE8202BB014A7A46829BD5C0 /* libPods-DebitCard-DebitCardTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DebitCard-DebitCardTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		F4D9B6866E0C2ADB48065FD1 /* libPods-DebitCard.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DebitCard.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -114,7 +123,6 @@
 				F6B47D08734EC56E59A4F491 /* Pods-DebitCard-DebitCardTests.debug.xcconfig */,
 				62647FF36B9A2D5ECA1383D4 /* Pods-DebitCard-DebitCardTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -134,6 +142,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				2D16E6871FA4F8E400B85C8A /* Frameworks */,
 				51FE19915A89C811D5A63FBC /* Pods */,
+				9343F071AD1C453F98167F56 /* Resources */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -147,6 +156,19 @@
 				00E356EE1AD99517003FC87E /* DebitCardTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		9343F071AD1C453F98167F56 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				972578FFF3C444A1848664C7 /* AvenirNext-Bold.ttf */,
+				ADB9D183065F4508B74514ED /* AvenirNext-Medium.ttf */,
+				5A350EF77B86440698DE69A5 /* AvenirNext-Regular.ttf */,
+				1C445BB482D343A58B99D681 /* AvenirNext-SemiBold.ttf */,
+				246749CFF9DF44F6B23E35F2 /* AvnerNext-DemiBold.ttf */,
+				C24BA3E383DA4F5F8ABC1073 /* AvenirNext-SBold.ttf */,
+			);
+			name = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -245,6 +267,9 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				2DE096918C754113B3E04F0A /* AvenirNext-Bold.ttf in Resources */,
+				F439B585EC5E4E74B35395B6 /* AvenirNext-Medium.ttf in Resources */,
+				B0E3CFAA19C84AA7A1DD04B6 /* AvenirNext-Regular.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
