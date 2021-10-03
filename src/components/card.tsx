@@ -18,7 +18,7 @@ const Card = ({cardInfo, hideCardNumber}: CardInfoProps) => {
   const cardNumberHidden = '****************';
 
   const getCardNumberArr = (str: string) => {
-    return str.match(/.{1,4}/g);
+    return str ? str.match(/.{1,4}/g) : [];
   };
 
   const numbers = getCardNumberArr(
@@ -33,8 +33,10 @@ const Card = ({cardInfo, hideCardNumber}: CardInfoProps) => {
       <View>
         <Text style={styles.cardName}>{cardName}</Text>
         <View style={styles.cardNumberContainer}>
-          {numbers?.map(num => (
-            <Text style={styles.cardNumber}>{num}</Text>
+          {numbers?.map((num, index) => (
+            <Text key={index} style={styles.cardNumber}>
+              {num}
+            </Text>
           ))}
         </View>
         <View style={styles.cardExpAndCvv}>

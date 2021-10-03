@@ -22,7 +22,7 @@ const {height} = commonUtils.deviceDimension;
 
 const HEADER_HEIGHT = height * 0.4;
 
-const USER_ID = 1;
+const USER_ID = 2;
 
 const DebitCardScreen = (props: {
   navigation: {navigate: (arg0: string) => void};
