@@ -1,8 +1,9 @@
-import {Dimensions, Platform, StatusBar} from 'react-native';
+import {Dimensions} from 'react-native';
+import {getStatusBarHeight} from 'react-native-status-bar-height';
 
 const commonUtils = {
   deviceDimension: Dimensions.get('window'),
-  statusBarHeight: Platform.OS === 'ios' ? 40 : StatusBar.currentHeight,
+  statusBarHeight: getStatusBarHeight(),
 };
 
 export default commonUtils;
