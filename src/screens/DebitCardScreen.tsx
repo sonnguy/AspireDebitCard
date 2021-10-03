@@ -21,12 +21,11 @@ import {UserModal} from '../store/services/userModel';
 const {height} = commonUtils.deviceDimension;
 
 const HEADER_HEIGHT = height * 0.4;
+const PROGRESS_BAR_WIDTH = commonUtils.deviceDimension.width - 40;
 
 const USER_ID = 1;
 
-const DebitCardScreen = (props: {
-  navigation: {navigate: (arg0: string) => void};
-}) => {
+const DebitCardScreen = (props: any) => {
   const user = useSelector((state: any) => state.user.userData);
   const [hideCardNumber, setHideCardNumber] = useState(false);
 
@@ -49,8 +48,13 @@ const DebitCardScreen = (props: {
   };
 
   const onSpendingLimitToggle = (isOn: boolean) => {
-    const data = {...user, weeklySpendingLimitOn: isOn};
+    const data = {
+      ...user,
+      weeklySpendingLimit: isOn ? user.weeklySpendingLimit : 0,
+      weeklySpendingLimitOn: isOn,
+    };
     updateUserAct(data);
+    isOn && gotoSpendingLimit();
   };
 
   useEffect(() => {
@@ -125,7 +129,21 @@ const BodyContainer = (props: BodyContainerProps) => {
     onFreezeCardToggle,
     gotoSpendingLimit,
   } = props;
-  const {cardName, cardNumber, cardExpireDate, cardCVV} = user;
+  const {
+    cardName,
+    cardNumber,
+    cardExpireDate,
+    cardCVV,
+    payed,
+    weeklySpendingLimit,
+  } = user;
+
+  const getProgressWidth = () => {
+    const percent = (payed * 100) / weeklySpendingLimit;
+    const width = (percent * 100 * 100) / PROGRESS_BAR_WIDTH;
+    return width;
+  };
+
   return (
     <View style={styles.bodyContainer}>
       <View style={styles.cardContainer}>
@@ -138,7 +156,7 @@ const BodyContainer = (props: BodyContainerProps) => {
               size={16}
               color={colors.secondary}
             />
-            <Text style={styles.cardHideCardNumbemText}>
+            <Text style={styles.cardHideCardNumberText}>
               {`${hideCardNumber ? 'Show' : 'Hide'} card number`}
             </Text>
           </TouchableOpacity>
@@ -149,6 +167,45 @@ const BodyContainer = (props: BodyContainerProps) => {
         />
       </View>
       <View style={styles.cardConfigContainer}>
+        {user.weeklySpendingLimitOn && (
+          <View style={styles.weeklySpendingTrackContainer}>
+            <View style={styles.flexRowCenter}>
+              <Text style={styles.weeklySpendingTrackText}>
+                {'Debit card spending limit'}
+              </Text>
+              <View style={styles.flexRowCenter}>
+                <NumberFormat
+                  value={user.payed}
+                  displayType={'text'}
+                  thousandSeparator={true}
+                  renderText={value => (
+                    <Text style={styles.weeklySpendingPayed}>${value}</Text>
+                  )}
+                />
+                <View style={styles.separateLine} />
+                <NumberFormat
+                  value={user.weeklySpendingLimit}
+                  displayType={'text'}
+                  thousandSeparator={true}
+                  renderText={value => (
+                    <Text style={styles.weeklySpendingLimit}>${value}</Text>
+                  )}
+                />
+              </View>
+            </View>
+            <View style={styles.progressBar}>
+              <View
+                style={[
+                  styles.progressCompleted,
+                  {
+                    width: getProgressWidth(),
+                    backgroundColor: colors.secondary,
+                  },
+                ]}
+              />
+            </View>
+          </View>
+        )}
         <View style={styles.cardConfigItem}>
           <CardConfig
             title={'Top-up account'}
@@ -167,7 +224,7 @@ const BodyContainer = (props: BodyContainerProps) => {
                   displayType={'text'}
                   thousandSeparator={true}
                   renderText={value => (
-                    <Text>Your spending limit: {value}</Text>
+                    <Text>Your week spending limit is S$ {value}</Text>
                   )}
                 />
               ) : (
@@ -274,6 +331,11 @@ const styles = StyleSheet.create({
     color: colors.textPrimary,
     marginTop: 5,
   },
+  flexRowCenter: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
   balanceBlock: {
     marginTop: 10,
   },
@@ -317,11 +379,50 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  cardHideCardNumbemText: {
+  cardHideCardNumberText: {
     color: colors.secondary,
     fontFamily: 'AvenirNext-Bold',
     fontSize: 12,
     paddingLeft: 5,
+  },
+  weeklySpendingTrackContainer: {
+    paddingVertical: 10,
+  },
+  weeklySpendingTrackText: {
+    fontFamily: 'AvenirNext-Medium',
+    fontSize: 13,
+  },
+  weeklySpendingPayed: {
+    fontFamily: 'AvenirNext-Medium',
+    fontSize: 13,
+    color: colors.secondary,
+  },
+  separateLine: {
+    height: 12,
+    width: 2,
+    backgroundColor: colors.textGray2,
+    marginHorizontal: 5,
+  },
+  weeklySpendingLimit: {
+    fontFamily: 'AvenirNext-Medium',
+    fontSize: 13,
+    color: colors.textGray2,
+  },
+  progressBar: {
+    width: PROGRESS_BAR_WIDTH,
+    backgroundColor: colors.buttonBg,
+    height: 15,
+    borderRadius: 10,
+    marginTop: 10,
+    position: 'relative',
+  },
+  progressCompleted: {
+    borderRadius: 10,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
   },
   cardConfigContainer: {
     marginTop: 20,

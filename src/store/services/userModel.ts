@@ -8,4 +8,5 @@ export interface UserModal {
   weeklySpendingLimitOn: boolean;
   freezeCard: boolean;
   balanceNumber: number;
+  payed: number;
 }

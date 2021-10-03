@@ -82,21 +82,26 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: colors.textPrimary,
     fontFamily: 'AvenirNext-Medium',
+    fontWeight: '600',
     marginTop: 25,
   },
   cardExpAndCvv: {
     flexDirection: 'row',
+    fontFamily: 'AvenirNext-Medium',
+    fontWeight: '600',
     marginTop: 15,
   },
   cardExpireDate: {
     fontSize: 13,
     color: colors.textPrimary,
+    fontFamily: 'AvenirNext-Medium',
     fontWeight: '600',
   },
   cardCvv: {
     fontSize: 13,
     color: colors.textPrimary,
-    fontWeight: '600',
+    fontFamily: 'AvenirNext-Medium',
     paddingLeft: 30,
+    fontWeight: '600',
   },
 });

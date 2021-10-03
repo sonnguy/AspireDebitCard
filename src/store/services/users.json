@@ -1,24 +1,26 @@
 [
     {
         "id": 1,
-        "cardName": "Son Nguy",
-        "cardNumber": "4242424242424242",
+        "cardName": "Mark Henry",
+        "cardNumber": "5647341124132020",
         "cardExpireDate": "12/22",
         "cardCVV": "123",
         "weeklySpendingLimit": 0,
         "weeklySpendingLimitOn": false,
         "freezeCard": false,
-        "balanceNumber": 3000
+        "balanceNumber": 3000,
+        "payed": 345
     },
     {
         "id": 2,
         "cardName": "Jonh Henry",
-        "cardNumber": "4242424242424242",
+        "cardNumber": "5690341124132121",
         "cardExpireDate": "10/22",
         "cardCVV": "456",
         "weeklySpendingLimit": 5000,
         "weeklySpendingLimitOn": true,
         "freezeCard": true,
-        "balanceNumber": 10000
+        "balanceNumber": 10000,
+        "payed": 500
     }
 ]

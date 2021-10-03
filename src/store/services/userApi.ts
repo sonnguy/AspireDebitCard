@@ -12,6 +12,7 @@ export const fetchUserInfoApi = (id: number): Promise<UserModal> => {
       if (localData && localData.id === id) {
         resolve(localData);
       } else {
+        await AsyncStorage.removeItem(USER_DATA_STORAGE);
         const res = users.find((o: UserModal) => o.id === id);
         resolve(res || null);
       }
@@ -21,7 +22,6 @@ export const fetchUserInfoApi = (id: number): Promise<UserModal> => {
 };
 
 export const updateUserInfoApi = (data: UserModal): Promise<UserModal> => {
-  console.log(data);
   const promise = new Promise<UserModal>(resolve => {
     setTimeout(async () => {
       await AsyncStorage.setItem(USER_DATA_STORAGE, JSON.stringify(data));

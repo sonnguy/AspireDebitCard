@@ -156,8 +156,8 @@ const BodyContainer = (props: BodyContainerProps) => {
 };
 
 export interface LimitSuggestionProps {
-  value: any;
-  onSelect: (value: any) => void;
+  value: number;
+  onSelect: (value: number) => void;
 }
 
 const LimitSuggestion = (props: LimitSuggestionProps) => {
@@ -228,7 +228,7 @@ const styles = StyleSheet.create({
   },
   bodyInputContainer: {
     marginTop: 10,
-    paddingVertical: 10,
+    paddingVertical: 8,
     borderBottomColor: colors.defaultBorder,
     borderBottomWidth: 0.5,
   },
@@ -236,6 +236,8 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     width: '90%',
     height: '100%',
+    fontFamily: 'AvenirNext-Bold',
+    fontSize: 24,
   },
   bodyInputNote: {
     fontFamily: 'AvenirNext-Regular',
