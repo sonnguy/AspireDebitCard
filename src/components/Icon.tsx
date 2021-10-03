@@ -5,7 +5,7 @@ export interface IconProps {
   size: number;
   name: string;
   color: string;
-  onPress: any;
+  onPress?: any;
 }
 
 export const IoniconsIcon = ({size, name, color, onPress}: IconProps) => (

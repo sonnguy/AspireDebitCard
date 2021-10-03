@@ -1,0 +1,24 @@
+[
+    {
+        "id": 1,
+        "cardName": "Son Nguy",
+        "cardNumber": "4242424242424242",
+        "cardExpireDate": "12/22",
+        "cardCVV": "123",
+        "weeklySpendingLimit": 0,
+        "weeklySpendingLimitOn": false,
+        "freezeCard": false,
+        "balanceNumber": 3000
+    },
+    {
+        "id": 2,
+        "cardName": "Jonh Henry",
+        "cardNumber": "4242424242424242",
+        "cardExpireDate": "10/22",
+        "cardCVV": "456",
+        "weeklySpendingLimit": 5000,
+        "weeklySpendingLimitOn": true,
+        "freezeCard": true,
+        "balanceNumber": 10000
+    }
+]

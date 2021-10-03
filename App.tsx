@@ -1,32 +1,16 @@
-import React, {useEffect, useState} from 'react';
-import {ActivityIndicator, StatusBar, StyleSheet, View} from 'react-native';
-
+import React from 'react';
+import {StatusBar} from 'react-native';
 import AppNavigator from './src/navigation/AppNavigator';
+import {Provider} from 'react-redux';
+import store from './src/store';
 
 const App = () => {
-  const [isLoadingComplete, setLoadingComplete] = useState(false);
-
-  useEffect(() => {
-    (async () => {
-      // await Ionicons.loadFont();
-      setLoadingComplete(true);
-    })();
-  }, []);
-
-  return isLoadingComplete ? (
-    <View style={styles.container}>
+  return (
+    <Provider store={store}>
       <StatusBar barStyle={'light-content'} />
       <AppNavigator />
-    </View>
-  ) : (
-    <ActivityIndicator />
+    </Provider>
   );
 };
 
 export default App;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});

@@ -1,8 +1,7 @@
-import React, { useRef } from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
-  Animated,
   StyleSheet,
   Image,
   ScrollView,
@@ -12,42 +11,74 @@ import Card from '../components/Card';
 import colors from '../styles/colors';
 import ToggleSwitch from 'toggle-switch-react-native';
 import PrefixCard from '../components/PrefixCard';
-import { IoniconsIcon } from '../components/Icon';
+import {IoniconsIcon} from '../components/Icon';
 import commonUtils from '../utils/commonUtils';
+import {useDispatch, useSelector} from 'react-redux';
+import {getUserInfo, updateUserInfo} from '../store/actions/userActions';
+import NumberFormat from 'react-number-format';
+import {UserModal} from '../store/services/userModel';
 
-const { height } = commonUtils.deviceDimension;
+const {height} = commonUtils.deviceDimension;
 
 const HEADER_HEIGHT = height * 0.4;
-const DebitCardScreen = (props: {
-  navigation: { navigate: (arg0: string) => void };
-}) => {
-  const scrollY = useRef(new Animated.Value(0)).current;
 
-  const headerTranslateY = scrollY.interpolate({
-    inputRange: [0, HEADER_HEIGHT],
-    outputRange: [0, -HEADER_HEIGHT],
-    extrapolate: 'clamp',
-  });
+const USER_ID = 1;
+
+const DebitCardScreen = (props: {
+  navigation: {navigate: (arg0: string) => void};
+}) => {
+  const user = useSelector((state: any) => state.user.userData);
+  const [hideCardNumber, setHideCardNumber] = useState(false);
+
+  const dispatch = useDispatch();
+
+  const getUserAct = () => dispatch(getUserInfo(USER_ID));
+  const updateUserAct = (data: UserModal) => dispatch(updateUserInfo(data));
 
   const gotoSpendingLimit = () => {
     props.navigation.navigate('SpendingLimit');
   };
 
-  const onHideCardNumberPress = () => {
-    gotoSpendingLimit();
+  const onHideCardToggle = () => {
+    setHideCardNumber(!hideCardNumber);
   };
+
+  const onFreezeCardToggle = (isOn: boolean) => {
+    const data = {...user, freezeCard: isOn};
+    updateUserAct(data);
+  };
+
+  const onSpendingLimitToggle = (isOn: boolean) => {
+    const data = {...user, weeklySpendingLimitOn: isOn};
+    updateUserAct(data);
+  };
+
+  useEffect(() => {
+    getUserAct();
+  }, []);
 
   return (
     <View style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <HeaderContainer />
-        <BodyContainer onHideCardNumberPress={onHideCardNumberPress} />
+        <HeaderContainer user={user} />
+        <BodyContainer
+          user={user}
+          hideCardNumber={hideCardNumber}
+          onHideCardToggle={onHideCardToggle}
+          onFreezeCardToggle={onFreezeCardToggle}
+          onSpendingLimitToggle={onSpendingLimitToggle}
+          gotoSpendingLimit={gotoSpendingLimit}
+        />
       </ScrollView>
     </View>
   );
 };
 
-const HeaderContainer = () => {
+export interface HeaderContainerProps {
+  user: UserModal;
+}
+
+const HeaderContainer = ({user}: HeaderContainerProps) => {
   return (
     <View style={styles.headerContainer}>
       <View style={styles.headerContent}>
@@ -61,7 +92,14 @@ const HeaderContainer = () => {
           <Text style={styles.balanceLabel}>{'Available balance'}</Text>
           <View style={styles.balanceInfo}>
             <PrefixCard />
-            <Text style={styles.balanceNumber}>{'3,000'}</Text>
+            <NumberFormat
+              value={user?.balanceNumber}
+              displayType={'text'}
+              thousandSeparator={true}
+              renderText={value => (
+                <Text style={styles.balanceNumber}>{value}</Text>
+              )}
+            />
           </View>
         </View>
       </View>
@@ -69,26 +107,46 @@ const HeaderContainer = () => {
   );
 };
 
-const BodyContainer = props => {
-  const { onHideCardNumberPress } = props;
+export interface BodyContainerProps {
+  user: UserModal;
+  hideCardNumber: boolean;
+  onHideCardToggle: () => void;
+  onSpendingLimitToggle: (isOn: boolean) => void;
+  onFreezeCardToggle: (isOn: boolean) => void;
+  gotoSpendingLimit: () => void;
+}
+
+const BodyContainer = (props: BodyContainerProps) => {
+  const {
+    user,
+    hideCardNumber,
+    onHideCardToggle,
+    onSpendingLimitToggle,
+    onFreezeCardToggle,
+    gotoSpendingLimit,
+  } = props;
+  const {cardName, cardNumber, cardExpireDate, cardCVV} = user;
   return (
     <View style={styles.bodyContainer}>
       <View style={styles.cardContainer}>
         <View style={styles.hideCardNumberContainer}>
           <TouchableOpacity
             style={styles.hideCardNumberContent}
-            onPress={onHideCardNumberPress}>
+            onPress={onHideCardToggle}>
             <IoniconsIcon
-              name="ios-eye-off"
+              name={hideCardNumber ? 'ios-eye' : 'ios-eye-off'}
               size={16}
               color={colors.secondary}
             />
             <Text style={styles.cardHideCardNumbemText}>
-              {'Hide card number'}
+              {`${hideCardNumber ? 'Show' : 'Hide'} card number`}
             </Text>
           </TouchableOpacity>
         </View>
-        <Card />
+        <Card
+          cardInfo={{cardName, cardNumber, cardExpireDate, cardCVV}}
+          hideCardNumber={hideCardNumber}
+        />
       </View>
       <View style={styles.cardConfigContainer}>
         <View style={styles.cardConfigItem}>
@@ -100,18 +158,38 @@ const BodyContainer = props => {
         </View>
         <View style={styles.cardConfigItem}>
           <CardConfig
+            onPress={gotoSpendingLimit}
             title={'Weekly spending limit'}
-            description={"you haven't set any spending limit on card"}
+            description={
+              user.weeklySpendingLimit > 0 ? (
+                <NumberFormat
+                  value={user?.weeklySpendingLimit}
+                  displayType={'text'}
+                  thousandSeparator={true}
+                  renderText={value => (
+                    <Text>Your spending limit: {value}</Text>
+                  )}
+                />
+              ) : (
+                "You haven't set any spending limit on card"
+              )
+            }
             image={require('../assets/images/spending.png')}
-            isToggle
+            showToggle
+            isToggle={user.weeklySpendingLimitOn}
+            onToggleSwitch={onSpendingLimitToggle}
           />
         </View>
         <View style={styles.cardConfigItem}>
           <CardConfig
             title={'Freeze card'}
-            description={'Your debit card is current active'}
+            description={`Your debit card is current ${
+              user.freezeCard ? 'freeze' : 'active'
+            }`}
             image={require('../assets/images/freeze.png')}
-            isToggle
+            showToggle
+            isToggle={user.freezeCard}
+            onToggleSwitch={onFreezeCardToggle}
           />
         </View>
         <View style={styles.cardConfigItem}>
@@ -133,23 +211,41 @@ const BodyContainer = props => {
   );
 };
 
-const CardConfig = props => {
-  const { image, title, description, isToggle, onToggleSwitch } = props;
+export interface CardConfigProps {
+  image: any;
+  title: string;
+  description: any;
+  showToggle?: boolean;
+  isToggle?: boolean;
+  onToggleSwitch?: (isOn: boolean) => void;
+  onPress?: () => void;
+}
+
+const CardConfig = (props: CardConfigProps) => {
+  const {
+    image,
+    title,
+    description,
+    showToggle,
+    isToggle,
+    onToggleSwitch,
+    onPress,
+  } = props;
   return (
-    <View style={styles.cardConfig}>
+    <TouchableOpacity style={styles.cardConfig} onPress={onPress}>
       <Image source={image} />
       <View style={styles.cardConfigInfo}>
         <Text style={styles.cardConfigTitle}>{title}</Text>
         <Text style={styles.cardConfigDescription}>{description}</Text>
       </View>
-      {isToggle && (
+      {showToggle && (
         <ToggleSwitch
-          isOn={false}
+          isOn={isToggle}
           onColor={colors.secondary}
-          onToggle={isOn => console.log('changed to : ', isOn)}
+          onToggle={onToggleSwitch}
         />
       )}
-    </View>
+    </TouchableOpacity>
   );
 };
 
