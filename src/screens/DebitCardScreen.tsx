@@ -18,9 +18,7 @@ import {getUserInfo, updateUserInfo} from '../store/actions/userActions';
 import NumberFormat from 'react-number-format';
 import {UserModal} from '../store/services/userModel';
 
-const {height} = commonUtils.deviceDimension;
-
-const HEADER_HEIGHT = height * 0.4;
+const HEADER_HEIGHT = 300;
 const PROGRESS_BAR_WIDTH = commonUtils.deviceDimension.width - 40;
 
 const USER_ID = 1;
@@ -28,6 +26,7 @@ const USER_ID = 1;
 const DebitCardScreen = (props: any) => {
   const user = useSelector((state: any) => state.user.userData);
   const [hideCardNumber, setHideCardNumber] = useState(false);
+  const [spendingLimitOn, setSpendingLimitOn] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -50,9 +49,9 @@ const DebitCardScreen = (props: any) => {
   const onSpendingLimitToggle = (isOn: boolean) => {
     const data = {
       ...user,
-      weeklySpendingLimit: isOn ? user.weeklySpendingLimit : 0,
-      weeklySpendingLimitOn: isOn,
+      weeklySpendingLimit: isOn ? user.weeklySpendingLimit : null,
     };
+    setSpendingLimitOn(isOn);
     updateUserAct(data);
     isOn && gotoSpendingLimit();
   };
@@ -61,13 +60,18 @@ const DebitCardScreen = (props: any) => {
     getUserAct();
   }, []);
 
+  useEffect(() => {
+    setSpendingLimitOn(user.weeklySpendingLimit ? true : false);
+  }, [user]);
+
   return (
     <View style={styles.container}>
+      <HeaderContainer user={user} />
       <ScrollView showsVerticalScrollIndicator={false}>
-        <HeaderContainer user={user} />
         <BodyContainer
           user={user}
           hideCardNumber={hideCardNumber}
+          spendingLimitOn={spendingLimitOn}
           onHideCardToggle={onHideCardToggle}
           onFreezeCardToggle={onFreezeCardToggle}
           onSpendingLimitToggle={onSpendingLimitToggle}
@@ -114,6 +118,7 @@ const HeaderContainer = ({user}: HeaderContainerProps) => {
 export interface BodyContainerProps {
   user: UserModal;
   hideCardNumber: boolean;
+  spendingLimitOn: boolean;
   onHideCardToggle: () => void;
   onSpendingLimitToggle: (isOn: boolean) => void;
   onFreezeCardToggle: (isOn: boolean) => void;
@@ -124,6 +129,7 @@ const BodyContainer = (props: BodyContainerProps) => {
   const {
     user,
     hideCardNumber,
+    spendingLimitOn,
     onHideCardToggle,
     onSpendingLimitToggle,
     onFreezeCardToggle,
@@ -139,129 +145,134 @@ const BodyContainer = (props: BodyContainerProps) => {
   } = user;
 
   const getProgressWidth = () => {
+    if (!weeklySpendingLimit) {
+      return 0;
+    }
     const percent = (payed * 100) / weeklySpendingLimit;
-    const width = (percent * 100 * 100) / PROGRESS_BAR_WIDTH;
+    const width = (percent / 100) * PROGRESS_BAR_WIDTH;
     return width;
   };
 
   return (
     <View style={styles.bodyContainer}>
-      <View style={styles.cardContainer}>
-        <View style={styles.hideCardNumberContainer}>
-          <TouchableOpacity
-            style={styles.hideCardNumberContent}
-            onPress={onHideCardToggle}>
-            <IoniconsIcon
-              name={hideCardNumber ? 'ios-eye' : 'ios-eye-off'}
-              size={16}
-              color={colors.secondary}
-            />
-            <Text style={styles.cardHideCardNumberText}>
-              {`${hideCardNumber ? 'Show' : 'Hide'} card number`}
-            </Text>
-          </TouchableOpacity>
-        </View>
-        <Card
-          cardInfo={{cardName, cardNumber, cardExpireDate, cardCVV}}
-          hideCardNumber={hideCardNumber}
-        />
-      </View>
-      <View style={styles.cardConfigContainer}>
-        {user.weeklySpendingLimitOn && (
-          <View style={styles.weeklySpendingTrackContainer}>
-            <View style={styles.flexRowCenter}>
-              <Text style={styles.weeklySpendingTrackText}>
-                {'Debit card spending limit'}
+      <View style={styles.bodyContentBlock}>
+        <View style={styles.cardContainer}>
+          <View style={styles.hideCardNumberContainer}>
+            <TouchableOpacity
+              style={styles.hideCardNumberContent}
+              onPress={onHideCardToggle}>
+              <IoniconsIcon
+                name={hideCardNumber ? 'ios-eye' : 'ios-eye-off'}
+                size={16}
+                color={colors.secondary}
+              />
+              <Text style={styles.cardHideCardNumberText}>
+                {`${hideCardNumber ? 'Show' : 'Hide'} card number`}
               </Text>
+            </TouchableOpacity>
+          </View>
+          <Card
+            cardInfo={{cardName, cardNumber, cardExpireDate, cardCVV}}
+            hideCardNumber={hideCardNumber}
+          />
+        </View>
+        <View style={styles.cardConfigContainer}>
+          {spendingLimitOn && (
+            <View style={styles.weeklySpendingTrackContainer}>
               <View style={styles.flexRowCenter}>
-                <NumberFormat
-                  value={user.payed}
-                  displayType={'text'}
-                  thousandSeparator={true}
-                  renderText={value => (
-                    <Text style={styles.weeklySpendingPayed}>${value}</Text>
-                  )}
-                />
-                <View style={styles.separateLine} />
-                <NumberFormat
-                  value={user.weeklySpendingLimit}
-                  displayType={'text'}
-                  thousandSeparator={true}
-                  renderText={value => (
-                    <Text style={styles.weeklySpendingLimit}>${value}</Text>
-                  )}
+                <Text style={styles.weeklySpendingTrackText}>
+                  {'Debit card spending limit'}
+                </Text>
+                <View style={styles.flexRowCenter}>
+                  <NumberFormat
+                    value={user.payed}
+                    displayType={'text'}
+                    thousandSeparator={true}
+                    renderText={value => (
+                      <Text style={styles.weeklySpendingPayed}>${value}</Text>
+                    )}
+                  />
+                  <View style={styles.separateLine} />
+                  <NumberFormat
+                    value={user.weeklySpendingLimit}
+                    displayType={'text'}
+                    thousandSeparator={true}
+                    renderText={value => (
+                      <Text style={styles.weeklySpendingLimit}>${value}</Text>
+                    )}
+                  />
+                </View>
+              </View>
+              <View style={styles.progressBar}>
+                <View
+                  style={[
+                    styles.progressCompleted,
+                    {
+                      width: getProgressWidth(),
+                      backgroundColor: colors.secondary,
+                    },
+                  ]}
                 />
               </View>
             </View>
-            <View style={styles.progressBar}>
-              <View
-                style={[
-                  styles.progressCompleted,
-                  {
-                    width: getProgressWidth(),
-                    backgroundColor: colors.secondary,
-                  },
-                ]}
-              />
-            </View>
+          )}
+          <View style={styles.cardConfigItem}>
+            <CardConfig
+              title={'Top-up account'}
+              description={'Deposit money to your account to use with card'}
+              image={require('../assets/images/top-up.png')}
+            />
           </View>
-        )}
-        <View style={styles.cardConfigItem}>
-          <CardConfig
-            title={'Top-up account'}
-            description={'Deposit money to your account to use with card'}
-            image={require('../assets/images/top-up.png')}
-          />
-        </View>
-        <View style={styles.cardConfigItem}>
-          <CardConfig
-            onPress={gotoSpendingLimit}
-            title={'Weekly spending limit'}
-            description={
-              user.weeklySpendingLimit > 0 ? (
-                <NumberFormat
-                  value={user?.weeklySpendingLimit}
-                  displayType={'text'}
-                  thousandSeparator={true}
-                  renderText={value => (
-                    <Text>Your week spending limit is S$ {value}</Text>
-                  )}
-                />
-              ) : (
-                "You haven't set any spending limit on card"
-              )
-            }
-            image={require('../assets/images/spending.png')}
-            showToggle
-            isToggle={user.weeklySpendingLimitOn}
-            onToggleSwitch={onSpendingLimitToggle}
-          />
-        </View>
-        <View style={styles.cardConfigItem}>
-          <CardConfig
-            title={'Freeze card'}
-            description={`Your debit card is current ${
-              user.freezeCard ? 'freeze' : 'active'
-            }`}
-            image={require('../assets/images/freeze.png')}
-            showToggle
-            isToggle={user.freezeCard}
-            onToggleSwitch={onFreezeCardToggle}
-          />
-        </View>
-        <View style={styles.cardConfigItem}>
-          <CardConfig
-            title={'Get a new card'}
-            description={'This the deactivates your current debit card'}
-            image={require('../assets/images/newcard.png')}
-          />
-        </View>
-        <View style={styles.cardConfigItem}>
-          <CardConfig
-            title={'Deactivated card'}
-            description={'Your previously deactivated card'}
-            image={require('../assets/images/deactivated.png')}
-          />
+          <View style={styles.cardConfigItem}>
+            <CardConfig
+              onPress={gotoSpendingLimit}
+              title={'Weekly spending limit'}
+              description={
+                user.weeklySpendingLimit > 0 ? (
+                  <NumberFormat
+                    value={user?.weeklySpendingLimit}
+                    displayType={'text'}
+                    thousandSeparator={true}
+                    renderText={value => (
+                      <Text>Your week spending limit is S$ {value}</Text>
+                    )}
+                  />
+                ) : (
+                  "You haven't set any spending limit on card"
+                )
+              }
+              image={require('../assets/images/spending.png')}
+              showToggle
+              isToggle={spendingLimitOn}
+              onToggleSwitch={onSpendingLimitToggle}
+            />
+          </View>
+          <View style={styles.cardConfigItem}>
+            <CardConfig
+              title={'Freeze card'}
+              description={`Your debit card is current ${
+                user.freezeCard ? 'freeze' : 'active'
+              }`}
+              image={require('../assets/images/freeze.png')}
+              showToggle
+              isToggle={user.freezeCard}
+              onToggleSwitch={onFreezeCardToggle}
+            />
+          </View>
+          <View style={styles.cardConfigItem}>
+            <CardConfig
+              title={'Get a new card'}
+              description={'This the deactivates your current debit card'}
+              image={require('../assets/images/newcard.png')}
+            />
+          </View>
+          <View style={styles.cardConfigItem}>
+            <CardConfig
+              title={'Deactivated card'}
+              description={'Your previously deactivated card'}
+              image={require('../assets/images/deactivated.png')}
+            />
+          </View>
         </View>
       </View>
     </View>
@@ -313,8 +324,13 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   headerContainer: {
-    height: HEADER_HEIGHT,
+    flex: 1,
     backgroundColor: colors.primary,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
   },
   headerContent: {
     paddingHorizontal: 20,
@@ -358,11 +374,14 @@ const styles = StyleSheet.create({
   },
   bodyContainer: {
     flex: 1,
-    backgroundColor: colors.defaultBackground,
+    paddingTop: HEADER_HEIGHT,
+  },
+  bodyContentBlock: {
     borderTopLeftRadius: 25,
     borderTopRightRadius: 25,
-    marginTop: -30,
     paddingHorizontal: 20,
+    backgroundColor: colors.defaultBackground,
+    paddingBottom: 30,
   },
   cardContainer: {
     marginTop: -90,

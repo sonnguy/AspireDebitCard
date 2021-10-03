@@ -23,7 +23,7 @@ const limitOptions = [5000, 10000, 20000];
 const SpendingLimitScreen = (props: any) => {
   const user = useSelector((state: any) => state.user.userData);
   const [limit, setLimit] = useState('');
-  const [isValid, setValid] = useState(true);
+  const [isValid, setValid] = useState(false);
 
   const dispatch = useDispatch();
 

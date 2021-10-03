@@ -5,7 +5,7 @@
         "cardNumber": "5647341124132020",
         "cardExpireDate": "12/22",
         "cardCVV": "123",
-        "weeklySpendingLimit": 0,
+        "weeklySpendingLimit": null,
         "weeklySpendingLimitOn": false,
         "freezeCard": false,
         "balanceNumber": 3000,
@@ -21,6 +21,6 @@
         "weeklySpendingLimitOn": true,
         "freezeCard": true,
         "balanceNumber": 10000,
-        "payed": 500
+        "payed": 5000
     }
 ]
