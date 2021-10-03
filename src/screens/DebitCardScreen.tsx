@@ -6,6 +6,7 @@ import {
   Image,
   ScrollView,
   TouchableOpacity,
+  ImageProps,
 } from 'react-native';
 import Card from '../components/Card';
 import colors from '../styles/colors';
@@ -148,6 +149,9 @@ const BodyContainer = (props: BodyContainerProps) => {
     if (!weeklySpendingLimit) {
       return 0;
     }
+    if (weeklySpendingLimit < payed) {
+      return PROGRESS_BAR_WIDTH;
+    }
     const percent = (payed * 100) / weeklySpendingLimit;
     const width = (percent / 100) * PROGRESS_BAR_WIDTH;
     return width;
@@ -209,7 +213,10 @@ const BodyContainer = (props: BodyContainerProps) => {
                     styles.progressCompleted,
                     {
                       width: getProgressWidth(),
-                      backgroundColor: colors.secondary,
+                      backgroundColor:
+                        weeklySpendingLimit < payed
+                          ? colors.overLimit
+                          : colors.secondary,
                     },
                   ]}
                 />
@@ -280,7 +287,7 @@ const BodyContainer = (props: BodyContainerProps) => {
 };
 
 export interface CardConfigProps {
-  image: any;
+  image: ImageProps;
   title: string;
   description: any;
   showToggle?: boolean;

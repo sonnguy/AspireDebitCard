@@ -49,8 +49,8 @@ This template follows a very simple project structure:
  ## Requirement - User stories
  Assumption that user already have account in system and application need to show user debit card information and their configuration.
  1. As a user, after login I select "Debit" menu to know about my debit card information such as: Card infor, Available balance, Top-up, Weekly spending limit, Freeze card, Get a new card, Deactivated card.
- 2. As a user, I want to set my weekly spending limit, I can input number or select with suggestion options.
- 3. As a user, I want to turn on/off weekly spending limit for "Alarm" when I reached limitation.
+ 2. As a user, I want to set my weekly spending limit, I can input number or select with suggestions.
+ 3. As a user, I want to turn on/off weekly spending limit. When I turn on I want to know much money have I spent? I also want to be "Alert" when I reached limitation.
  4. As a user, I want to turn on/off freeze card.
  
   ## Noted

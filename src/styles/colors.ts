@@ -12,6 +12,7 @@ const colors = {
   buttonBg: '#effcf4',
   defaultBorder: '#E5E5E5',
   iconWhite: '#fff',
+  overLimit: '#fb6c61',
 };
 
 export default colors;
